@@ -11,9 +11,13 @@ class DetectorMovimiento:
         self.fgbg = cv2.createBackgroundSubtractorKNN()
         # self.fgbg = cv2.createBackgroundSubtractorMOG2()
 
-        self.fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # or use 'XVID'
+        # Obtiene las dimensiones del video
+        frame_width = int(self.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        frame_height = int(self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+        self.fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         self.out = cv2.VideoWriter('videos/detector_movimiento.mp4', self.fourcc, 20.0,
-                                   (640, 480))  # ajusta el fps y la resolución según sea necesario
+                                   (frame_width, frame_height))
         # Obtén los fps del video
         self.fps = self.cap.get(cv2.CAP_PROP_FPS)
 
@@ -78,6 +82,7 @@ class DetectorMovimiento:
 
                 # Muestra el frame
                 cv2.imshow('Video', frame)
+                self.out.write(frame)
 
                 # Reproduciendo a la mitad de velocidad
                 if cv2.waitKey(int(1000 / (2 * self.cap.get(cv2.CAP_PROP_FPS)))) & 0xFF == ord('q'):
@@ -87,7 +92,7 @@ class DetectorMovimiento:
 
         # Cierra el video
         self.cap.release()
-        self.out.write(frame)
+
 
         # Cierra todas las ventanas de OpenCV
         cv2.destroyAllWindows()
