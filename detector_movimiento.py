@@ -11,6 +11,12 @@ class DetectorMovimiento:
         self.fgbg = cv2.createBackgroundSubtractorKNN()
         # self.fgbg = cv2.createBackgroundSubtractorMOG2()
 
+        self.fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # or use 'XVID'
+        self.out = cv2.VideoWriter('videos/detector_movimiento.mp4', self.fourcc, 20.0,
+                                   (640, 480))  # ajusta el fps y la resolución según sea necesario
+        # Obtén los fps del video
+        self.fps = self.cap.get(cv2.CAP_PROP_FPS)
+
     def activar(self):
 
         # Comprueba si el video se abrió correctamente
@@ -81,6 +87,7 @@ class DetectorMovimiento:
 
         # Cierra el video
         self.cap.release()
+        self.out.write(frame)
 
         # Cierra todas las ventanas de OpenCV
         cv2.destroyAllWindows()
