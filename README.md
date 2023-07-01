@@ -1,1 +1,1 @@
-# OPENCV_DetectorFugas
+# OPENCV_DetectorMovimientoLocalizado
